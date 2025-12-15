@@ -73,7 +73,7 @@ dotnet run --project TrainingPlanner.Api
 
 API:t körs nu på:
 
-https://localhost:3000
+ http://localhost:3000
 
 
 Swagger finns på:
@@ -96,7 +96,7 @@ npm install
 
 Skapa .env:
 
-VITE_API_URL=https://localhost:3000
+VITE_API_URL=  http://localhost:3000
 
 
 Starta frontend:
