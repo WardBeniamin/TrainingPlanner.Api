@@ -19,11 +19,28 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Show files (debug)
+        run: |
+          echo "Repo root:"
+          ls -la
+          echo "Searching for .sln:"
+          find . -maxdepth 4 -name "*.sln" -print
+
+      - name: Locate solution
+        run: |
+          SOLUTION=$(find . -maxdepth 4 -name "*.sln" | head -n 1)
+          if [ -z "$SOLUTION" ]; then
+            echo "ERROR: No .sln file found in the repo. You must push the .sln to GitHub."
+            exit 1
+          fi
+          echo "Using solution: $SOLUTION"
+          echo "SOLUTION=$SOLUTION" >> $GITHUB_ENV
+
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore "$SOLUTION"
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build "$SOLUTION" --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-build
+        run: dotnet test "$SOLUTION" --configuration Release --no-build
